@@ -1,44 +1,44 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Linking, StyleSheet, Text, View } from 'react-native';
-import * as Location from 'expo-location';
-import MapView from 'react-native-maps';
-import * as Permissions from 'expo-permissions';
-import { colors, device, fonts, gStyle } from '../constants';
+import React from "react";
+import PropTypes from "prop-types";
+import { Linking, StyleSheet, Text, View } from "react-native";
+import * as Location from "expo-location";
+import MapView from "react-native-maps";
+import * as Permissions from "expo-permissions";
+import { colors, device, fonts, gStyle } from "../constants";
 
 // components
-import RequestRideType from '../components/RequestRideType';
-import SelectRideType from '../components/SelectRideType';
-import TouchIcon from '../components/TouchIcon';
-import TouchText from '../components/TouchText';
-import WhereTo from '../components/WhereTo';
+import RequestRideType from "../components/RequestRideType";
+import SelectRideType from "../components/SelectRideType";
+import TouchIcon from "../components/TouchIcon";
+import TouchText from "../components/TouchText";
+import WhereTo from "../components/WhereTo";
 
 // icons
-import SvgCheckShield from '../components/icons/Svg.CheckShield';
-import SvgMenu from '../components/icons/Svg.Menu';
-import SvgQRCode from '../components/icons/Svg.QRCode';
+import SvgCheckShield from "../components/icons/Svg.CheckShield";
+import SvgMenu from "../components/icons/Svg.Menu";
+import SvgQRCode from "../components/icons/Svg.QRCode";
 
 const { PROVIDER_GOOGLE } = MapView;
 
 const types = {
   car: {
-    image: 'carSm',
-    imageLg: 'carLg',
-    text: 'Ride'
+    image: "carSm",
+    imageLg: "carLg",
+    text: "Ride"
   },
   bike: {
-    image: 'bikeSm',
-    imageLg: 'bikeLg',
-    text: 'Bike'
+    image: "bikeSm",
+    imageLg: "bikeLg",
+    text: "Bike"
   }
 };
 
-class Home extends React.Component {
+export default class Home extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      type: 'car',
+      type: "car",
       selectType: false,
       showMap: false,
       userLat: null,
@@ -57,13 +57,13 @@ class Home extends React.Component {
     let finalStatus = existingStatus;
 
     // ask again to grant locaton permissions (if not already allowed)
-    if (existingStatus !== 'granted') {
+    if (existingStatus !== "granted") {
       const { status } = await Permissions.askAsync(Permissions.LOCATION);
       finalStatus = status;
     }
 
     // still not allowed to use location?
-    if (finalStatus !== 'granted') {
+    if (finalStatus !== "granted") {
       return;
     }
 
@@ -115,7 +115,7 @@ class Home extends React.Component {
               We need your location data...
             </Text>
             <TouchText
-              onPress={() => Linking.openURL('app-settings:')}
+              onPress={() => Linking.openURL("app-settings:")}
               style={styles.btnGoTo}
               styleText={styles.btnGoToText}
               text="Go To Permissions"
@@ -123,19 +123,19 @@ class Home extends React.Component {
           </View>
         )}
 
-        {type === 'bike' && (
+        {type === "bike" && (
           <View style={styles.rightContainer}>
             <View style={styles.icons}>
               <TouchIcon
                 icon={<SvgQRCode />}
                 iconSize={20}
-                onPress={() => navigation.navigate('ModalQRCode')}
+                onPress={() => navigation.navigate("ModalQRCode")}
                 style={[styles.icon, styles.iconQRCode]}
               />
               <TouchIcon
                 icon={<SvgCheckShield />}
                 iconSize={20}
-                onPress={() => navigation.navigate('ModalTutorialBike')}
+                onPress={() => navigation.navigate("ModalTutorialBike")}
                 style={[styles.icon, styles.iconShield]}
               />
             </View>
@@ -154,10 +154,10 @@ class Home extends React.Component {
             text={types[type].text}
           />
 
-          {type === 'car' && <View style={styles.placeholder} />}
-          {type === 'bike' && (
+          {type === "car" && <View style={styles.placeholder} />}
+          {type === "bike" && (
             <TouchText
-              onPress={() => navigation.navigate('ModalHelp')}
+              onPress={() => navigation.navigate("ModalHelp")}
               style={styles.help}
               text="Help"
             />
@@ -171,7 +171,7 @@ class Home extends React.Component {
           visible={selectType}
         />
 
-        {type === 'car' && <WhereTo />}
+        {type === "car" && <WhereTo />}
       </View>
     );
   }
@@ -185,14 +185,14 @@ Home.propTypes = {
 const styles = StyleSheet.create({
   map: {
     height: device.height,
-    position: 'absolute',
+    position: "absolute",
     width: device.width
   },
   containerNoLocation: {
-    alignItems: 'center',
+    alignItems: "center",
     height: device.height,
-    justifyContent: 'center',
-    position: 'absolute',
+    justifyContent: "center",
+    position: "absolute",
     width: device.width
   },
   textLocationNeeded: {
@@ -212,14 +212,14 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   header: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
     paddingHorizontal: 20,
     paddingTop: device.iPhoneX ? 58 : 34
   },
   help: {
-    textAlign: 'center',
+    textAlign: "center",
     width: 32
   },
   placeholder: {
@@ -227,10 +227,10 @@ const styles = StyleSheet.create({
     width: 32
   },
   rightContainer: {
-    alignItems: 'center',
-    height: '100%',
-    justifyContent: 'center',
-    position: 'absolute',
+    alignItems: "center",
+    height: "100%",
+    justifyContent: "center",
+    position: "absolute",
     right: 16,
     width: 40
   },
@@ -251,5 +251,3 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white
   }
 });
-
-export default Home;

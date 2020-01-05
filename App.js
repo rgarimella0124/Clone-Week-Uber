@@ -4,6 +4,21 @@ import { AppLoading } from "expo";
 import { func } from "./src/constants";
 
 import Stack from "./src/navigation/Stack";
+import { createAppContainer } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
+import LoginScreen from "./src/screens/LoginScreen";
+
+const AppNavigator = createStackNavigator(
+  {
+    Login: { screen: LoginScreen },
+    Main: { screen: Stack }
+  },
+  {
+    initialRouteName: "Login",
+    headerMode: "none"
+  }
+);
+const AppContainer = createAppContainer(AppNavigator);
 
 export default class App extends React.Component {
   constructor(props) {
@@ -29,7 +44,7 @@ export default class App extends React.Component {
     return (
       <React.Fragment>
         <StatusBar barStyle="dark-content" />
-        <Stack />
+        <AppContainer />
       </React.Fragment>
     );
   }
